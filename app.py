@@ -4,12 +4,8 @@ from dotenv import load_dotenv
 from pypdf import PdfReader
 from google import genai
 
-# Load local environment variables if available
 load_dotenv()
 
-# -----------------------------------------------------------------------------
-# Streamlit Page Setup & Custom Dark Theme
-# -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Exam Prep AI | Question Bank & Generator",
     page_icon="🎓",
@@ -55,11 +51,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# -----------------------------------------------------------------------------
-# Helper Functions
-# -----------------------------------------------------------------------------
 def extract_text_from_pdfs(pdf_files) -> str:
-    """Extracts raw text from uploaded PDF files."""
     combined_text = ""
     for pdf_file in pdf_files:
         try:
@@ -73,16 +65,12 @@ def extract_text_from_pdfs(pdf_files) -> str:
     return combined_text
 
 def get_gemini_client():
-    """Initializes and returns the Gemini client."""
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
         st.error("`GEMINI_API_KEY` is missing. Set it in Render Environment Variables.")
         st.stop()
     return genai.Client(api_key=api_key)
 
-# -----------------------------------------------------------------------------
-# Main Dashboard UI
-# -----------------------------------------------------------------------------
 st.title("🎓 College Exam Prep AI Assistant")
 st.caption("Upload Previous Year Questions (PYQs) and Syllabus to categorize topics or generate practice questions.")
 
@@ -145,8 +133,9 @@ with tab1:
                     4. Format the output cleanly using Markdown with clear heading titles for each topic and bullet points for questions.
                     """
 
+                    # FIXED: Changed model name to gemini-1.5-flash
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-1.5-flash',
                         contents=prompt,
                     )
 
@@ -200,8 +189,9 @@ with tab2:
                     - Add a 2-3 line answer outline/hint for each question.
                     """
 
+                    # FIXED: Changed model name to gemini-1.5-flash
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-1.5-flash',
                         contents=prompt,
                     )
 

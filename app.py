@@ -149,7 +149,7 @@ with tab1:
                     request_payload = [prompt] + syllabus_parts + pyq_parts
 
                     response = client.models.generate_content(
-                        model='gemini-2.0-flash',
+                        model='gemini-3.8-flash',
                         contents=request_payload,
                     )
 
@@ -204,7 +204,7 @@ with tab2:
                     request_payload = [prompt] + syllabus_parts + pyq_parts
 
                     response = client.models.generate_content(
-                        model='gemini-2.0-flash',
+                        model='gemini-3.8-flash',
                         contents=request_payload,
                     )
 

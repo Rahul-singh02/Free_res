@@ -135,7 +135,7 @@ with tab1:
 
                     # FIXED: Changed model name to gemini-1.5-flash
                     response = client.models.generate_content(
-                        model='gemini-1.5-flash',
+                        model='gemini-2.5-flash',
                         contents=prompt,
                     )
 
@@ -191,7 +191,7 @@ with tab2:
 
                     # FIXED: Changed model name to gemini-1.5-flash
                     response = client.models.generate_content(
-                        model='gemini-1.5-flash',
+                        model='gemini-2.5-flash',
                         contents=prompt,
                     )
 

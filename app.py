@@ -3,8 +3,11 @@ import streamlit as st
 from dotenv import load_dotenv
 from pypdf import PdfReader
 from google import genai
+import pytesseract
+from pdf2image import convert_from_bytes
 
 load_dotenv()
+
 
 st.set_page_config(
     page_title="Exam Prep AI | Question Bank & Generator",
@@ -55,11 +58,23 @@ def extract_text_from_pdfs(pdf_files) -> str:
     combined_text = ""
     for pdf_file in pdf_files:
         try:
+            pdf_bytes = pdf_file.read()
+            # First try standard text extraction with pypdf
+            pdf_file.seek(0)
             reader = PdfReader(pdf_file)
+            extracted_text = ""
             for page in reader.pages:
-                text = page.extract_text()
-                if text:
-                    combined_text += text + "\n"
+                t = page.extract_text()
+                if t:
+                    extracted_text += t + "\n"
+            
+            # If standard text extraction fails/gives empty result, fallback to OCR
+            if not extracted_text.strip():
+                images = convert_from_bytes(pdf_bytes)
+                for img in images:
+                    extracted_text += pytesseract.image_to_string(img) + "\n"
+
+            combined_text += extracted_text + "\n"
         except Exception as e:
             st.error(f"Error reading {pdf_file.name}: {e}")
     return combined_text

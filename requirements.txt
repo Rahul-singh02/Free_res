@@ -1,4 +1,6 @@
 streamlit
-google-genai
 pypdf
+pdf2image
+pytesseract
+google-genai
 python-dotenv
